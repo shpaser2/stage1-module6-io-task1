@@ -3,6 +3,7 @@ package com.epam.mjc.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import static java.nio.charset.StandardCharsets.*;
 
 public class FileReader {
 
@@ -10,9 +11,12 @@ public class FileReader {
         Profile profile = new Profile();
         try (FileInputStream fis = new FileInputStream(file)) {
             byte[] data = new byte[(int) file.length()];
-            fis.read(data);
+            int result = fis.read(data);
+            if (result == -1) {
+                throw new IOException("unsuccessful reading of file");
+            }
 
-            String str = new String(data, "UTF-8");
+            String str = new String(data, UTF_8);
             String[] lines = str.split("\n");
 
             for (String line : lines) {
@@ -31,6 +35,8 @@ public class FileReader {
                     case "Phone":
                         profile.setPhone(Long.parseLong(parts[1]));
                         break;
+                    default:
+                        throw new IOException("wrong key in the given profile");
                 }
             }
         } catch (IOException e) {
