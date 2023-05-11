@@ -3,7 +3,7 @@ package com.epam.mjc.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import static java.nio.charset.StandardCharsets.*;
+
 
 public class FileReader {
 
@@ -16,7 +16,7 @@ public class FileReader {
                 throw new IOException("unsuccessful reading of file");
             }
 
-            String str = new String(data, UTF_8);
+            String str = new String(data, "UTF-8");
             String[] lines = str.split("\n");
 
             for (String line : lines) {
